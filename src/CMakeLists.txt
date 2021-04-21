@@ -43,10 +43,15 @@ endif()
 
 # Generic test that uses conan libs
 add_executable(intro main.cpp)
+
+find_package(docopt REQUIRED)
+find_package(fmt REQUIRED)
+find_package(spdlog REQUIRED)
+
 target_link_libraries(
   intro
   PRIVATE project_options
           project_warnings
-          CONAN_PKG::docopt.cpp
-          CONAN_PKG::fmt
-          CONAN_PKG::spdlog)
+          docopt::docopt
+          fmt::fmt
+          spdlog::spdlog)
