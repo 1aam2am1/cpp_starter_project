@@ -1,4 +1,7 @@
 macro(run_conan)
+  list(APPEND CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR})
+  list(APPEND CMAKE_PREFIX_PATH ${CMAKE_BINARY_DIR})
+
   # Download automatically, you can also just copy the conan.cmake file
   if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
     message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
@@ -16,17 +19,20 @@ macro(run_conan)
     URL
     https://api.bintray.com/conan/bincrafters/public-conan)
 
-  conan_cmake_run(
+  conan_cmake_configure(
     REQUIRES
-    ${CONAN_EXTRA_REQUIRES}
-    catch2/2.13.3
-    docopt.cpp/0.6.2
-    fmt/6.2.0
-    spdlog/1.5.0
-    OPTIONS
-    ${CONAN_EXTRA_OPTIONS}
-    BASIC_SETUP
-    CMAKE_TARGETS # individual targets to link to
-    BUILD
-    missing)
+          ${CONAN_EXTRA_REQUIRES}
+          catch2/2.13.3
+          docopt.cpp/0.6.2
+          fmt/6.2.0
+          spdlog/1.5.0
+    GENERATORS cmake_find_package
+    OPTIONS ${CONAN_EXTRA_OPTIONS})
+
+  conan_cmake_autodetect(settings)
+
+  conan_cmake_install(PATH_OR_REFERENCE .
+    BUILD missing
+    SETTINGS ${settings})
+
 endmacro()
