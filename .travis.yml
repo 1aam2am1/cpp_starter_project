@@ -13,20 +13,20 @@ jobs:
   include:
     - os: osx
       compiler: gcc
-      osx_image: xcode11.2    # includes gcc-9 by default
+      osx_image: xcode11.4    # includes gcc-9 by default
       env:
-        - GCC_VER="9"
+        - GCC_VER="10"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
     - os: osx
       compiler: clang
-      osx_image: xcode11.2
+      osx_image: xcode11.4
       env:
         - MATRIX_EVAL=""
     - os: linux
       dist: bionic
       compiler: gcc
       env:
-        - GCC_VER="9"
+        - GCC_VER="10"
         - MATRIX_EVAL="CC=gcc-${GCC_VER} && CXX=g++-${GCC_VER}"
 
       addons:
@@ -35,8 +35,8 @@ jobs:
             - ubuntu-toolchain-r-test
           packages:
             # I couldn't get ${GCC_VER} in here successfully
-            - gcc-9
-            - g++-9
+            - gcc-10
+            - g++-10
             - doxygen
             - python3-pip
       after_script:
